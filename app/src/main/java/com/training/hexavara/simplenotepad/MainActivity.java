@@ -15,13 +15,6 @@ import android.widget.CompoundButton;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.training.hexavara.simplenotepad.adapters.NotesAdapter;
-import com.training.hexavara.simplenotepad.callbacks.MainActionModeCallback;
-import com.training.hexavara.simplenotepad.callbacks.NoteEventListener;
-import com.training.hexavara.simplenotepad.db.NotesDB;
-import com.training.hexavara.simplenotepad.db.NotesDao;
-import com.training.hexavara.simplenotepad.model.Note;
-import com.training.hexavara.simplenotepad.utils.NoteUtils;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
@@ -31,11 +24,17 @@ import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.SwitchDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
+import com.training.hexavara.simplenotepad.adapters.NotesAdapter;
+import com.training.hexavara.simplenotepad.callbacks.MainActionModeCallback;
+import com.training.hexavara.simplenotepad.callbacks.NoteEventListener;
+import com.training.hexavara.simplenotepad.db.NotesDB;
+import com.training.hexavara.simplenotepad.db.NotesDao;
+import com.training.hexavara.simplenotepad.model.Note;
+import com.training.hexavara.simplenotepad.utils.NoteUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.RestrictTo;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -68,6 +67,7 @@ public class MainActivity extends AppCompatActivity implements NoteEventListener
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        getSupportActionBar();
         setSupportActionBar(toolbar);
 
         setupNavigation(savedInstanceState, toolbar);
@@ -92,8 +92,8 @@ public class MainActivity extends AppCompatActivity implements NoteEventListener
 
         // Navigation menu items
         List<IDrawerItem> iDrawerItems = new ArrayList<>();
-        iDrawerItems.add(new PrimaryDrawerItem().withName("Home").withIcon(R.drawable.ic_home_black_24dp));
-        iDrawerItems.add(new PrimaryDrawerItem().withName("Notes").withIcon(R.drawable.ic_note_black_24dp));
+        iDrawerItems.add(new PrimaryDrawerItem().withName("Beranda").withIcon(R.drawable.ic_home_black_24dp));
+        iDrawerItems.add(new PrimaryDrawerItem().withName("Catatan").withIcon(R.drawable.ic_note_black_24dp));
 
         // sticky DrawItems ; footer menu items
 
@@ -129,8 +129,8 @@ public class MainActivity extends AppCompatActivity implements NoteEventListener
         // navigation menu header
         AccountHeader header = new AccountHeaderBuilder().withActivity(this)
                 .addProfiles(new ProfileDrawerItem()
-                        .withEmail("feedback.mrzero@gmail.com")
-                        .withName("ixiDev")
+                        .withEmail("najaslanardo07@gmail.com")
+                        .withName("najamuslim")
                         .withIcon(R.mipmap.ic_launcher_round))
                 .withSavedInstance(savedInstanceState)
                 .withHeaderBackground(R.drawable.ic_launcher_background)
