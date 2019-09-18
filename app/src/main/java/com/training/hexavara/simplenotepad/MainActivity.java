@@ -1,28 +1,18 @@
 package com.training.hexavara.simplenotepad;
 
 import android.annotation.SuppressLint;
-import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.ActionMode;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.CompoundButton;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.mikepenz.materialdrawer.AccountHeader;
-import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
-import com.mikepenz.materialdrawer.DrawerBuilder;
-import com.mikepenz.materialdrawer.interfaces.OnCheckedChangeListener;
-import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
-import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
-import com.mikepenz.materialdrawer.model.SwitchDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.training.hexavara.simplenotepad.adapters.NotesAdapter;
 import com.training.hexavara.simplenotepad.callbacks.MainActionModeCallback;
@@ -70,7 +60,6 @@ public class MainActivity extends AppCompatActivity implements NoteEventListener
         getSupportActionBar();
         setSupportActionBar(toolbar);
 
-        setupNavigation(savedInstanceState, toolbar);
         // init recyclerView
         recyclerView = findViewById(R.id.notes_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -88,68 +77,7 @@ public class MainActivity extends AppCompatActivity implements NoteEventListener
         dao = NotesDB.getInstance(this).notesDao();
     }
 
-    private void setupNavigation(Bundle savedInstanceState, Toolbar toolbar) {
 
-        // Navigation menu items
-        List<IDrawerItem> iDrawerItems = new ArrayList<>();
-        iDrawerItems.add(new PrimaryDrawerItem().withName("Beranda").withIcon(R.drawable.ic_home_black_24dp));
-        iDrawerItems.add(new PrimaryDrawerItem().withName("Catatan").withIcon(R.drawable.ic_note_black_24dp));
-
-        // sticky DrawItems ; footer menu items
-
-        List<IDrawerItem> stockyItems = new ArrayList<>();
-
-        SwitchDrawerItem switchDrawerItem = new SwitchDrawerItem()
-                .withName("Dark Theme")
-                .withChecked(theme == R.style.AppTheme_Dark)
-                .withIcon(R.drawable.ic_dark_theme)
-                .withOnCheckedChangeListener(new OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(IDrawerItem drawerItem, CompoundButton buttonView, boolean isChecked) {
-                        // TODO: 02/10/2018 change to darck theme and save it to settings
-                        if (isChecked) {
-                            settings.edit().putInt(THEME_Key, R.style.AppTheme_Dark).apply();
-                        } else {
-                            settings.edit().putInt(THEME_Key, R.style.AppTheme).apply();
-                        }
-
-                        // recreate app or the activity // if it's not working follow this steps
-                        // MainActivity.this.recreate();
-
-                        // this lines means wi want to close the app and open it again to change theme
-                        TaskStackBuilder.create(MainActivity.this)
-                                .addNextIntent(new Intent(MainActivity.this, MainActivity.class))
-                                .addNextIntent(getIntent()).startActivities();
-                    }
-                });
-
-        stockyItems.add(new PrimaryDrawerItem().withName("Settings").withIcon(R.drawable.ic_settings_black_24dp));
-        stockyItems.add(switchDrawerItem);
-
-        // navigation menu header
-        AccountHeader header = new AccountHeaderBuilder().withActivity(this)
-                .addProfiles(new ProfileDrawerItem()
-                        .withEmail("najaslanardo07@gmail.com")
-                        .withName("najamuslim")
-                        .withIcon(R.mipmap.ic_launcher_round))
-                .withSavedInstance(savedInstanceState)
-                .withHeaderBackground(R.drawable.ic_launcher_background)
-                .withSelectionListEnabledForSingleProfile(false) // we need just one profile
-                .build();
-
-        // Navigation drawer
-        new DrawerBuilder()
-                .withActivity(this) // activity main
-                .withToolbar(toolbar) // toolbar
-                .withSavedInstance(savedInstanceState) // saveInstance of activity
-                .withDrawerItems(iDrawerItems) // menu items
-                .withTranslucentNavigationBar(true)
-                .withStickyDrawerItems(stockyItems) // footer items
-                .withAccountHeader(header) // header of navigation
-                .withOnDrawerItemClickListener(this) // listener for menu items click
-                .build();
-
-    }
 
     private void loadNotes() {
         this.notes = new ArrayList<>();
@@ -185,28 +113,6 @@ public class MainActivity extends AppCompatActivity implements NoteEventListener
     private void onAddNewNote() {
         startActivity(new Intent(this, editNoteActivity.class));
 
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
 
